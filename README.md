@@ -1,7 +1,7 @@
 # Superstore
 This project consists of a Front-End written in React.JS, a back-en written in C#, and MS SQL Stored Procedures.
 
-## Superstore API 
+## Superstore API l
 
 ### Product
 - **GET** /api/products

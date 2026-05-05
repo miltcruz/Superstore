@@ -1,5 +1,6 @@
 USE [Superstore]
 GO
+/****** Object:  StoredProcedure [dbo].[GetProducts]    Script Date: 5/5/2026 1:48:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7,7 +8,7 @@ GO
 -- =============================================
 -- Author:		Milton Cruz	
 -- Create date: 4/28/2026
--- Update date: 
+-- Update date: 5/5/2026
 -- Description:	Get all Products
 -- EXEC GetProducts
 -- =============================================
@@ -25,9 +26,10 @@ BEGIN
 			CategoryID,
 			SubCategoryID,
 			UnitPrice,
-			ProductKey
+			ProductKey,
+			Quantity
 			FROM dbo.Product
-			--WHERE IsActive = 1;
+			WHERE IsActive = 1;
 	END TRY
 	BEGIN CATCH
    		SELECT ERROR_MESSAGE() AS ErrorMessage;

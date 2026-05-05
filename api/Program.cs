@@ -14,6 +14,16 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+var allowedOrigins = 
+    builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? 
+    Array.Empty<string>();
+
+app.UseCors(policy =>
+    policy.WithOrigins(allowedOrigins)
+          .AllowAnyHeader()
+          .AllowAnyMethod());
+
+          
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

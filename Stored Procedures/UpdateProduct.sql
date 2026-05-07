@@ -1,6 +1,6 @@
 USE [Superstore]
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateProduct]    Script Date: 5/5/2026 1:43:40 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateProduct]    Script Date: 5/7/2026 1:09:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8,17 +8,19 @@ GO
 -- =============================================
 -- Author:		Milton Cruz	
 -- Create date: 4/28/2026
--- Update date: 5/5/2026
+-- Update date: 5/7/2026
 -- Description:	Update a Product
+-- EXEC UpdateProduct @ProductID = 1, @ProductName = 'New Product'
+-- EXEC UpdateProduct @ProductID = 1, @ProductName = 'New Product', @CategoryID = 1,
 -- EXEC UpdateProduct @ProductID = 1, @ProductName = 'New Product', @CategoryID = 1, @SubCategoryID = 1, @UnitPrice = 0.00, @Quantity = 10
 -- =============================================
 CREATE PROCEDURE [dbo].[UpdateProduct]
 	@ProductID INT,
-	@ProductName NVARCHAR(150),
-	@CategoryID INT,
-	@SubCategoryID INT,
-    @UnitPrice DECIMAL(18,2),
-	@Quantity INT
+	@ProductName NVARCHAR(150) = NULL,
+	@CategoryID INT = NULL,
+	@SubCategoryID INT = NULL,
+    @UnitPrice DECIMAL(18,2) = NULL,
+	@Quantity INT = NULL
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -27,11 +29,11 @@ BEGIN
 
     BEGIN TRY
    		UPDATE dbo.Product
-       	SET ProductName = @ProductName,
-            CategoryID = @CategoryID,
-            SubCategoryID = @SubCategoryID,
-            UnitPrice = @UnitPrice,
-			Quantity = @Quantity
+       	SET ProductName = COALESCE(@ProductName, ProductName),
+            CategoryID = COALESCE(@CategoryID, CategoryID),
+            SubCategoryID = COALESCE(@SubCategoryID, SubCategoryID),
+            UnitPrice = COALESCE(@UnitPrice, UnitPrice),
+			Quantity = COALESCE(@Quantity, Quantity)
         WHERE ProductID = @ProductID;
 	END TRY
 	BEGIN CATCH

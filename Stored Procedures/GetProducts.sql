@@ -1,6 +1,6 @@
 USE [Superstore]
 GO
-/****** Object:  StoredProcedure [dbo].[GetProducts]    Script Date: 5/5/2026 1:48:57 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetProducts]    Script Date: 5/7/2026 1:35:52 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8,7 +8,7 @@ GO
 -- =============================================
 -- Author:		Milton Cruz	
 -- Create date: 4/28/2026
--- Update date: 5/5/2026
+-- Update date: 5/7/2026
 -- Description:	Get all Products
 -- EXEC GetProducts
 -- =============================================
@@ -23,13 +23,19 @@ BEGIN
    		
 		SELECT TOP 100 ProductID,
 			ProductName,
-			CategoryID,
-			SubCategoryID,
+			p.CategoryID,
+			c.Category,
+			p.SubCategoryID,
+			sc.SubCategory,
 			UnitPrice,
 			ProductKey,
 			Quantity
-			FROM dbo.Product
-			WHERE IsActive = 1;
+		FROM dbo.Product AS p
+		JOIN dbo.Category AS c 
+		ON p.CategoryID = c.CategoryID
+		JOIN dbo.SubCategory AS sc
+		ON p.SubCategoryID = sc.SubCategoryID
+		WHERE IsActive = 1;
 	END TRY
 	BEGIN CATCH
    		SELECT ERROR_MESSAGE() AS ErrorMessage;

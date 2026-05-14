@@ -27,10 +27,29 @@ public class ProductsController : ControllerBase
             List<Product> products = rows.Select(MapToProduct).ToList();
             return Ok(products);
         }
-        catch
+        catch (Exception ex)
         {
             // Log the exception (not shown here)
-            return StatusCode(500, "An error occurred while processing your request for all products.");
+            return StatusCode(500, $"An error occurred while processing your request for all products: {ex.Message}");
+        }
+    }
+
+    [HttpGet("{id}", Name = "GetProductById")]
+    public async Task<IActionResult> Get(int id)
+    {
+        try
+        {
+            var row = await _db.QuerySingleAsync("GetProduct", new SqlParameter("@ProductID", id));
+            if (row == null)
+                return NotFound();
+
+            Product product = MapToProduct(row);
+            return Ok(product);
+        }
+        catch (Exception ex)
+        {
+            // Log the exception (not shown here)
+            return StatusCode(500, $"An error occurred while processing your request for the product: {ex.Message}");
         }
     }
 

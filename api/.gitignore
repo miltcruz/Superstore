@@ -79,6 +79,5 @@ pnpm-lock.yaml
 ## Ignore local secrets and environment overrides
 secrets.json
 *.usersecret
-appsettings.json
 appsettings.Local.json
 appsettings.Development.json
